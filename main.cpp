@@ -9,9 +9,9 @@
 
 const double PI = 3.141592653589793238463;
 
-// 0.21548
-double foo_a = 0.4;
-double foo_b = 1;
+// 1.3737
+double foo_a = 1;
+double foo_b = 2;
 double foo(double x)
 {
     //x^2*arcctg(x/2)/x
