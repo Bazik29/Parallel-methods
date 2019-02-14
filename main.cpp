@@ -150,7 +150,7 @@ int main(int argc, char const *argv[])
     result_test = rectangle_l(foo, foo_a, h_2, n_2);
     rung = runge(result_test, result, 1);
 
-    std::cout << "Метод левых пряямоугольников\n";
+    std::cout << "Метод левых прямоугольников\n";
     // std::cout << "Время:     " << runtimeDuration.count() << std::endl;
     std::cout << "Результат:                " << result << std::endl;
     std::cout << "Ошибка по правилу Рунге:  " << rung << std::endl;
@@ -160,7 +160,7 @@ int main(int argc, char const *argv[])
     result_test = rectangle_r(foo, foo_a, h_2, n_2);
     rung = runge(result_test, result, 1);
 
-    std::cout << "\nМетод правых пряямоугольников.\n";
+    std::cout << "\nМетод правых прямоугольников.\n";
     // std::cout << "Время:     " << runtimeDuration.count() << std::endl;
     std::cout << "Результат:                " << result << std::endl;
     std::cout << "Ошибка по правилу Рунге:  " << rung << std::endl;
@@ -175,7 +175,7 @@ int main(int argc, char const *argv[])
     rung = runge(result_test, result, 1);
     abs_err = abs_err_rect_m(foo_2, foo_a, foo_b, h, n);
 
-    std::cout << "\nМетод правых пряямоугольников.\n";
+    std::cout << "\nМетод правых прямоугольников.\n";
     // std::cout << "Время:     " << runtimeDuration.count() << std::endl;
     std::cout << "Результат:                " << result << std::endl;
     std::cout << "Ошибка по правилу Рунге:  " << rung << std::endl;
@@ -184,7 +184,7 @@ int main(int argc, char const *argv[])
     // Метод трапеций
     result = trapezoidal(foo, foo_a, h, n);
     result_test = trapezoidal(foo, foo_a, h_2, n_2);
-    rung = runge(result_test, result, 1);
+    rung = runge(result_test, result, 2);
     abs_err = abs_err_trap(foo_2, foo_a, foo_b, h, n);
 
     std::cout << "\nМетод трапеций.\n";
