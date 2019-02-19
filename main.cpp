@@ -155,18 +155,22 @@ double abs_err_simps(std::function<double(double)> f_4, double a, double b, doub
     return maximum * std::pow(b - a, 5) / (2880 * std::pow(n, 4));
 }
 
-double newton_38(std::function<double(double)> f, double a, double h, size_t n)
+double newton_38(std::function<double(double)> f, double a, double b, double h, size_t n)
 {
-    // double result = 0;
-
-// #pragma omp parallel for reduction(+ : result)
-//     for (size_t i = 1; i < n - 1; i += 2)
-//     {
-//         double x1 = a + h * (i - 1);
-//         double x2 = a + h * i;
-//         double x3 = a + h * (i + 1);
-//         result += f(x1) + 4 * f(x2) + f(x3);
-//     }
+    double S1 = 0.0, S2 = 0.0;
+#pragma omp parallel for reduction(+ : S1)
+    for (int i = 1; i < n; i++)
+    {
+        if (i % 3 == 0)
+            S1 += f(a + i * h);
+    }
+#pragma omp parallel for reduction(+ : S2)
+    for (int i = 1; i < n; i++)
+    {
+        if (i % 3 != 0)
+            S2 += f(a + i * h);
+    }
+    return 3. / 8. * (f(a) + f(b) + 2 * S1 + 3 * S2) * h;
     return 0;
 }
 
@@ -174,12 +178,12 @@ double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, 
 {
     // double maximum = 0;
 
-// #pragma omp parallel for
-//     for (size_t i = 0; i < n; i++)
-//     {
-//         double x = a + h * i;
-//         maximum = std::max(maximum, std::fabs(f_4(x)));
-//     }
+    // #pragma omp parallel for
+    //     for (size_t i = 0; i < n; i++)
+    //     {
+    //         double x = a + h * i;
+    //         maximum = std::max(maximum, std::fabs(f_4(x)));
+    //     }
     return 0;
 }
 
