@@ -17,11 +17,18 @@ endif
 
 default: $(TARGET)
 
-$(TARGET): main.o
-	$(COMPILER) $(FLAGS) main.o -o $@
+$(TARGET): main.o integral.o utils.o
+	$(COMPILER) $(FLAGS) main.o integral.o utils.o -o $@
 
 main.o: main.cpp
 	$(COMPILER) -c $(FLAGS) main.cpp
+
+integral.o: integral.cpp
+	$(COMPILER) -c $(FLAGS) integral.cpp
+
+utils.o: utils.cpp
+	$(COMPILER) -c $(FLAGS) utils.cpp
+
 
 clean:
 	$(RM) *.o
