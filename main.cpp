@@ -41,7 +41,8 @@ double foo_4(double x)
 double rectangle_l(std::function<double(double)> f, double a, double h, size_t n)
 {
     double result = 0;
-#pragma omp parallel for reduction(+ : result)
+#pragma omp parallel for reduction(+ \
+                                   : result)
     for (size_t i = 0; i < n - 1; i++)
     {
         double x = a + h * i;
@@ -53,7 +54,8 @@ double rectangle_l(std::function<double(double)> f, double a, double h, size_t n
 double rectangle_r(std::function<double(double)> f, double a, double h, size_t n)
 {
     double result = 0;
-#pragma omp parallel for reduction(+ : result)
+#pragma omp parallel for reduction(+ \
+                                   : result)
     for (size_t i = 1; i < n; i++)
     {
         double x = a + h * i;
@@ -65,7 +67,8 @@ double rectangle_r(std::function<double(double)> f, double a, double h, size_t n
 double rectangle_m(std::function<double(double)> f, double a, double h, size_t n)
 {
     double result = 0;
-#pragma omp parallel for reduction(+ : result)
+#pragma omp parallel for reduction(+ \
+                                   : result)
     for (size_t i = 0; i < n - 1; i++)
     {
         double x = a + h * i + h / 2;
@@ -104,7 +107,8 @@ double trapezoidal(std::function<double(double)> f, double a, double h, size_t n
 {
     double result = 0;
 
-#pragma omp parallel for reduction(+ : result)
+#pragma omp parallel for reduction(+ \
+                                   : result)
     for (size_t i = 0; i < n; i++)
     {
         double x1 = a + h * i;
@@ -131,7 +135,8 @@ double simpson(std::function<double(double)> f, double a, double h, size_t n)
 {
     double result = 0;
 
-#pragma omp parallel for reduction(+ : result)
+#pragma omp parallel for reduction(+ \
+                                   : result)
     for (size_t i = 0; i < n - 1; i += 2)
     {
         double x0 = a + h * i;
@@ -155,37 +160,35 @@ double abs_err_simps(std::function<double(double)> f_4, double a, double b, doub
     return maximum * std::pow(b - a, 5) / (2880 * std::pow(n, 4));
 }
 
-// double newton_38(std::function<double(double)> f, double a, double b, double h, size_t n)
-// {
-//     double S1 = 0.0, S2 = 0.0;
-// #pragma omp parallel for reduction(+ : S1)
-//     for (int i = 1; i < n; i++)
-//     {
-//         if (i % 3 == 0)
-//             S1 += f(a + i * h);
-//     }
-// #pragma omp parallel for reduction(+ : S2)
-//     for (int i = 1; i < n; i++)
-//     {
-//         if (i % 3 != 0)
-//             S2 += f(a + i * h);
-//     }
-//     return 3. / 8. * (f(a) + f(b) + 2 * S1 + 3 * S2) * h;
-//     return 0;
-// }
+double newton_38(std::function<double(double)> f, double a, double h, size_t n)
+{
+    double result = 0;
 
-// double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, double h, size_t n)
-// {
-//     // double maximum = 0;
+#pragma omp parallel for reduction(+ \
+                                   : result)
+    for (size_t i = 0; i < n - 1; i += 3)
+    {
+        double x0 = a + h * i;
+        double x1 = a + h * (i + 1);
+        double x2 = a + h * (i + 2);
+        double x3 = a + h * (i + 3);
+        result += f(x0) + 3 * (f(x1) + f(x2)) + f(x3);
+    }
+    return 3. / 8 * h * result;
+}
 
-//     // #pragma omp parallel for
-//     //     for (size_t i = 0; i < n; i++)
-//     //     {
-//     //         double x = a + h * i;
-//     //         maximum = std::max(maximum, std::fabs(f_4(x)));
-//     //     }
-//     return 0;
-// }
+double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, double h, size_t n)
+{
+    double maximum = 0;
+
+#pragma omp parallel for
+    for (size_t i = 0; i < n; i++)
+    {
+        double x = a + h * i;
+        maximum = std::max(maximum, std::fabs(f_4(x)));
+    }
+    return maximum * std::pow(b - a, 5) / (80 * std::pow(n, 4));
+}
 
 double runge(double I_h, double I_2h, int k)
 {
@@ -194,9 +197,9 @@ double runge(double I_h, double I_2h, int k)
 
 using std::cout;
 using std::endl;
-using std::chrono::steady_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
+using std::chrono::steady_clock;
 
 int main(int argc, char const *argv[])
 {
@@ -236,7 +239,7 @@ int main(int argc, char const *argv[])
     cout << "\nФормула левых прямоугольников\n";
     cout << "Результат:                 " << result << endl;
     cout << "Ошибка по правилу Рунге:   " << rung << endl;
-    cout << "Время:                     " << rect_lTime.count() << endl;    
+    cout << "Время:                     " << rect_lTime.count() << endl;
 
     // Формула правых прямоугольников
     begTime = steady_clock::now();
@@ -299,20 +302,24 @@ int main(int argc, char const *argv[])
     cout << "Абсолютная погрешность:    " << abs_err << endl;
     cout << "Время:                     " << simps_Time.count() << endl;
 
-    // Формула Ньютона (правило трех восьмых)
-    // begTime = steady_clock::now();
-    // result = newton_38(foo, foo_a, h, n);
-    // auto newton_Time = duration_cast<duration<double>>(steady_clock::now() - begTime);
+    //Формула Ньютона (правило трех восьмых)
+    n = 30;
+    h = (foo_b - foo_a) / n;
+    n_2 = n / 2;
+    h_2 = (foo_b - foo_a) / n_2;
+    begTime = steady_clock::now();
+    result = newton_38(foo, foo_a, h, n);
+    auto newton_Time = duration_cast<duration<double>>(steady_clock::now() - begTime);
 
     // result_test = newton_38(foo, foo_a, h_2, n_2);
-    // rung = runge(result_test, result, 4);
+    rung = runge(result_test, result, 4);
     // abs_err = abs_err_newton_38(foo_2, foo_a, foo_b, h, n);
 
-    // cout << "\nФормула Ньютона (правило трех восьмых)\n";
-    // cout << "Время:                     " << newton_Time.count() << endl;
-    // cout << "Результат:                 " << result << endl;
-    // cout << "Ошибка по правилу Рунге:   " << rung << endl;
-    // cout << "Абсолютная погрешность:    " << abs_err << endl;
+    cout << "\nФормула Ньютона (правило трех восьмых)\n";
+    cout << "Результат:                 " << result << endl;
+    cout << "Ошибка по правилу Рунге:   " << rung << endl;
+    cout << "Абсолютная погрешность:    " << abs_err << endl;
+    cout << "Время:                     " << newton_Time.count() << endl;
 
     return 0;
 }
