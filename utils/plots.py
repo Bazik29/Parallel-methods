@@ -9,6 +9,7 @@ import math
 # 3 - Формула трапеций
 # 4 - Формула Симпсона
 # 5 - "Правило трех восьмых"
+
 # Treads,Id,Steps,Time,Integral,AbsErr,RungeErr
 
 if __name__ == "__main__":
@@ -20,14 +21,14 @@ if __name__ == "__main__":
         "Формула Симпсона",
         "\"Правило трех восьмых\""]
 
-    raw_data = pd.read_csv('out.csv')
+    raw_data = pd.read_csv('out1.csv')
 
     data_time = raw_data[['Threads', 'Id', 'Steps', 'Time']].groupby(
         ['Threads', 'Id', 'Steps'], as_index=False).mean()
 
     max_y_time = max(data_time['Time'])
-    max_y_sp = 8
-    max_y_ep = 4
+    max_y_sp = 2
+    max_y_ep = 2
     for Id in sorted(set(data_time['Id'])):
         sub_df = data_time.loc[data_time.Id == Id]
         fig = plt.figure(figsize=(8, 6), dpi=100)
@@ -41,9 +42,9 @@ if __name__ == "__main__":
         Ep_subplt = fig.add_subplot(224)
         plt.ylim(0, max_y_ep)
         plt.grid(ls=':')
-        rt_subplt.set_title('Время выполнения, сек')
+        rt_subplt.set_title('Время выполнения')
         rt_subplt.set_xlabel('Число потоков')
-        rt_subplt.set_ylabel('Время')
+        rt_subplt.set_ylabel('Время, сек')
         Sp_subplt.set_title('Ускорение')
         Sp_subplt.set_xlabel('Число потоков')
         Sp_subplt.set_ylabel("$S_{p}$")

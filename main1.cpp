@@ -60,12 +60,11 @@ int main(int argc, char *argv[])
     5 - "Правило трех восьмых"
     */
 
-    bool toCSV = false;
     // число разбиений (для каждого метода)
     size_t aN[6] = {100, 100, 100, 100, 100, 99};
 
     int opt;
-    while ((opt = getopt(argc, argv, "n:l?")) != -1)
+    while ((opt = getopt(argc, argv, "n:")) != -1)
     {
         switch (opt)
         {
@@ -82,11 +81,8 @@ int main(int argc, char *argv[])
                 aN[5] -= 1;
             break;
         }
-        case 'l':
-        {
-            toCSV = true;
+        default:
             break;
-        }
         }
     }
 
@@ -104,15 +100,12 @@ int main(int argc, char *argv[])
     double result,
         result_test, rung, abs_err, calc_time;
 
-    int num_procs = omp_get_max_threads();//omp_get_num_procs();
+    int num_procs = omp_get_max_threads(); //omp_get_num_procs();
 
-    if (!toCSV)
-    {
-        cout << "Число потоков: " << num_procs << endl;
-        cout << "------Методы одномерного численного интегрирования------\n";
-        cout << "Верный результат:             1.373720859104567\n";
-        cout << "--------------------------------------------------------\n";
-    }
+    cout << "Число потоков: " << num_procs << endl;
+    cout << "------Методы одномерного численного интегрирования------\n";
+    cout << "Верный результат:             1.373720859104567\n";
+    cout << "--------------------------------------------------------\n";
 
     // Формула левых прямоугольников
     auto begTime = steady_clock::now();
@@ -124,10 +117,7 @@ int main(int argc, char *argv[])
     result_test = rectangle_l(foo, foo_a, foo_b, aN_runge[0]);
     rung = runge(result_test, result, 1);
 
-    if (!toCSV)
-        print_log(0, aN[0], result, abs_err, aN_runge[0], rung, calc_time);
-    else
-        print_CSV(num_procs, 0, aN[0], calc_time, result, abs_err, rung);
+    print_log(0, aN[0], result, abs_err, aN_runge[0], rung, calc_time);
 
     // Формула правых прямоугольников
     begTime = steady_clock::now();
@@ -137,10 +127,7 @@ int main(int argc, char *argv[])
     result_test = rectangle_r(foo, foo_a, foo_b, aN_runge[1]);
     rung = runge(result_test, result, 1);
 
-    if (!toCSV)
-        print_log(1, aN[1], result, abs_err, aN_runge[1], rung, calc_time);
-    else
-        print_CSV(num_procs, 1, aN[1], calc_time, result, abs_err, rung);
+    print_log(1, aN[1], result, abs_err, aN_runge[1], rung, calc_time);
 
     // Формула средних прямоугольников
     begTime = steady_clock::now();
@@ -152,10 +139,7 @@ int main(int argc, char *argv[])
     result_test = rectangle_m(foo, foo_a, foo_b, aN_runge[2]);
     rung = runge(result_test, result, 2);
 
-    if (!toCSV)
-        print_log(2, aN[2], result, abs_err, aN_runge[2], rung, calc_time);
-    else
-        print_CSV(num_procs, 2, aN[2], calc_time, result, abs_err, rung);
+    print_log(2, aN[2], result, abs_err, aN_runge[2], rung, calc_time);
 
     // Формула трапеций
     begTime = steady_clock::now();
@@ -167,10 +151,7 @@ int main(int argc, char *argv[])
     result_test = trapezoidal(foo, foo_a, foo_b, aN_runge[3]);
     rung = runge(result_test, result, 2);
 
-    if (!toCSV)
-        print_log(3, aN[3], result, abs_err, aN_runge[3], rung, calc_time);
-    else
-        print_CSV(num_procs, 3, aN[3], calc_time, result, abs_err, rung);
+    print_log(3, aN[3], result, abs_err, aN_runge[3], rung, calc_time);
 
     // Формула Симпсона
     begTime = steady_clock::now();
@@ -182,10 +163,7 @@ int main(int argc, char *argv[])
     result_test = simpson(foo, foo_a, foo_b, aN_runge[4]);
     rung = runge(result_test, result, 4);
 
-    if (!toCSV)
-        print_log(4, aN[4], result, abs_err, aN_runge[4], rung, calc_time);
-    else
-        print_CSV(num_procs, 4, aN[4], calc_time, result, abs_err, rung);
+    print_log(4, aN[4], result, abs_err, aN_runge[4], rung, calc_time);
 
     // Формула Ньютона (правило трех восьмых)
     begTime = steady_clock::now();
@@ -197,10 +175,7 @@ int main(int argc, char *argv[])
     result_test = newton_38(foo, foo_a, foo_b, aN_runge[5]);
     rung = runge(result_test, result, 4);
 
-    if (!toCSV)
-        print_log(5, aN[5], result, abs_err, aN_runge[5], rung, calc_time);
-    else
-        print_CSV(num_procs, 5, aN[5], calc_time, result, abs_err, rung);
+    print_log(5, aN[5], result, abs_err, aN_runge[5], rung, calc_time);
 
     return 0;
 }

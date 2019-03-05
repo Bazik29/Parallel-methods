@@ -1,4 +1,5 @@
 *.o
-main
+main1
+test1
 *.csv
 *.png
