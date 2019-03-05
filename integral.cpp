@@ -1,6 +1,8 @@
 #include "integral.h"
 #include <omp.h>
 #include <cmath>
+#include <random>
+#include <vector>
 
 double runge(double I_h, double I_2h, int k)
 {
@@ -168,4 +170,20 @@ double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, 
         maximum = std::max(maximum, std::fabs(f_4(x)));
     }
     return maximum * std::pow(b - a, 5) / (80 * std::pow(n, 4));
+}
+
+double monte_carlo_1d(std::function<double(double)> f, double a, double b, size_t n)
+{
+    std::random_device randD;
+    std::mt19937 randMT(randD());
+    std::uniform_real_distribution<> rand_x(a, b);
+
+    double result = 0;
+#pragma omp parallel for reduction(+ \
+                                   : result)
+    for (size_t i = 0; i < n; i++)
+    {
+        result += f(rand_x(randMT));
+    }
+    return (b - a) / n * result;
 }

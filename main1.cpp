@@ -60,8 +60,9 @@ int main(int argc, char *argv[])
     5 - "Правило трех восьмых"
     */
 
+    const int N_MET = 7;
     // число разбиений (для каждого метода)
-    size_t aN[6] = {100, 100, 100, 100, 100, 99};
+    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99, 100};
 
     int opt;
     while ((opt = getopt(argc, argv, "n:")) != -1)
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
         case 'n':
         {
             int n_steps = std::atoi(optarg);
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < N_MET; i++)
                 aN[i] = n_steps;
             // число разбиений кратно 2 для формулы Симпсона
             if (aN[4] % 2 != 0)
@@ -87,8 +88,8 @@ int main(int argc, char *argv[])
     }
 
     // число разбиений (для каждого метода) для оценки погрешности по Рунге
-    size_t aN_runge[6];
-    for (int i = 0; i < 6; i++)
+    size_t aN_runge[N_MET];
+    for (int i = 0; i < N_MET; i++)
         aN_runge[i] = aN[i] / 2;
     // число разбиений кратно 2 для формулы Симпсона
     if (aN_runge[4] % 2 != 0)
@@ -176,6 +177,18 @@ int main(int argc, char *argv[])
     rung = runge(result_test, result, 4);
 
     print_log(5, aN[5], result, abs_err, aN_runge[5], rung, calc_time);
+
+    // Метод Монте-Карло
+    begTime = steady_clock::now();
+    result = monte_carlo_1d(foo, foo_a, foo_b, aN[6]);
+    calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
+
+    //abs_err = abs_err_monte_carlo_1d(foo_2, foo_a, foo_b, aN[5]);
+
+    result_test = monte_carlo_1d(foo, foo_a, foo_b, aN_runge[6]);
+    rung = runge(result_test, result, 4);
+
+    print_log(6, aN[6], result, abs_err, aN_runge[6], rung, calc_time);
 
     return 0;
 }

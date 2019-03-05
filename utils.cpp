@@ -10,7 +10,8 @@ void print_log(int id, int N, double result, double err, int N_runge, double err
         "Формула средних прямоугольников",
         "Формула трапеций",
         "Формула Симпсона",
-        "\"Правило трех восьмых\""};
+        "\"Правило трех восьмых\"",
+        "Метод Монте-Карло"};
 
     std::cout << names[id] << std::endl;
     std::cout << "Число разбиений:              " << N << std::endl;

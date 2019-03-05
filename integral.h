@@ -25,3 +25,5 @@ double abs_err_simps(std::function<double(double)> f_4, double a, double b, size
 double newton_38(std::function<double(double)> f, double a, double b, size_t n);
 
 double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, size_t n);
+
+double monte_carlo_1d(std::function<double(double)> f, double a, double b, size_t n);
