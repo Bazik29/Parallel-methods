@@ -1,4 +1,4 @@
-num_for_repeat=1000
+num_for_repeat=10
 max_threds=4
 step_treads=1
 

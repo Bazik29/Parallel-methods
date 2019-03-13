@@ -1,5 +1,7 @@
 *.o
 main1
 test1
+main2
+test2
 *.csv
 *.png

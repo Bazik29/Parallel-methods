@@ -6,6 +6,7 @@
 
 #include "integral.h"
 #include "utils.h"
+
 #include "function.h"
 
 using std::cout;
@@ -81,7 +82,7 @@ int main(int argc, char *argv[])
            result_test = 0, rung = -1, abs_err = -1, calc_time = 0;
 
     int num_procs = omp_get_max_threads(); //omp_get_num_procs();
-    auto begTime = steady_clock::now();
+    auto begTime = steady_clock::now(); // power of "auto"=)))
 
     switch (m)
     {
@@ -89,13 +90,13 @@ int main(int argc, char *argv[])
     {
         // Формула левых прямоугольников
         begTime = steady_clock::now();
-        result = rectangle_l(My::foo, My::foo_a, My::foo_b, aN[0]);
+        result = rectangle_l_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[0]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_rect_rl(My::foo_1, My::foo_a, My::foo_b, aN[0]);
-            result_test = rectangle_l(My::foo, My::foo_a, My::foo_b, aN_runge[0]);
+            abs_err = abs_err_rect_rl_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[0]);
+            result_test = rectangle_l_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[0]);
             rung = runge(result_test, result, 1);
         }
 
@@ -106,13 +107,13 @@ int main(int argc, char *argv[])
     {
         // Формула правых прямоугольников
         begTime = steady_clock::now();
-        result = rectangle_r(My::foo, My::foo_a, My::foo_b, aN[1]);
+        result = rectangle_r_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[1]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_rect_rl(My::foo_1, My::foo_a, My::foo_b, aN[0]);
-            result_test = rectangle_r(My::foo, My::foo_a, My::foo_b, aN_runge[1]);
+            abs_err = abs_err_rect_rl_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[0]);
+            result_test = rectangle_r_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[1]);
             rung = runge(result_test, result, 1);
         }
 
@@ -123,13 +124,13 @@ int main(int argc, char *argv[])
     {
         // Формула средних прямоугольников
         begTime = steady_clock::now();
-        result = rectangle_m(My::foo, My::foo_a, My::foo_b, aN[2]);
+        result = rectangle_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_rect_m(My::foo_2, My::foo_a, My::foo_b, aN[2]);
-            result_test = rectangle_m(My::foo, My::foo_a, My::foo_b, aN_runge[2]);
+            abs_err = abs_err_rect_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
+            result_test = rectangle_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[2]);
             rung = runge(result_test, result, 2);
         }
 
@@ -140,13 +141,13 @@ int main(int argc, char *argv[])
     {
         // Формула трапеций
         begTime = steady_clock::now();
-        result = trapezoidal(My::foo, My::foo_a, My::foo_b, aN[3]);
+        result = trapezoidal_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[3]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_trap(My::foo_2, My::foo_a, My::foo_b, aN[3]);
-            result_test = trapezoidal(My::foo, My::foo_a, My::foo_b, aN_runge[3]);
+            abs_err = abs_err_trap_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[3]);
+            result_test = trapezoidal_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[3]);
             rung = runge(result_test, result, 2);
         }
 
@@ -157,13 +158,13 @@ int main(int argc, char *argv[])
     {
         // Формула Симпсона
         begTime = steady_clock::now();
-        result = simpson(My::foo, My::foo_a, My::foo_b, aN[4]);
+        result = simpson_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[4]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_simps(My::foo_4, My::foo_a, My::foo_b, aN[4]);
-            result_test = simpson(My::foo, My::foo_a, My::foo_b, aN_runge[4]);
+            abs_err = abs_err_simps_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[4]);
+            result_test = simpson_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[4]);
             rung = runge(result_test, result, 4);
         }
 
@@ -174,13 +175,13 @@ int main(int argc, char *argv[])
     {
         // Формула Ньютона-Котеса (правило трех восьмых)
         begTime = steady_clock::now();
-        result = newton_38(My::foo, My::foo_a, My::foo_b, aN[5]);
+        result = newton_38_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[5]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_newton_38(My::foo_2, My::foo_a, My::foo_b, aN[5]);
-            result_test = newton_38(My::foo, My::foo_a, My::foo_b, aN_runge[5]);
+            abs_err = abs_err_newton_38_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[5]);
+            result_test = newton_38_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[5]);
             rung = runge(result_test, result, 4);
         }
 
@@ -191,13 +192,13 @@ int main(int argc, char *argv[])
     {
         // Метод Монте-Карло
         begTime = steady_clock::now();
-        result = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN[6]);
+        result = monte_carlo_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[6]);
         calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
         if (withError)
         {
-            abs_err = abs_err_monte_carlo_1d(My::foo_2, My::foo_a, My::foo_b, aN[5]);
-            result_test = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN_runge[6]);
+            abs_err = abs_err_monte_carlo_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[6]);
+            result_test = monte_carlo_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[6]);
             rung = runge(result_test, result, 4);
         }
 
