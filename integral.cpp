@@ -9,7 +9,7 @@ double runge(double I_h, double I_2h, int k)
     return std::abs(I_h - I_2h) / (std::pow(2, k) - 1);
 }
 
-double rectangle_l(std::function<double(double)> f, double a, double b, size_t n)
+double rectangle_l(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -23,7 +23,7 @@ double rectangle_l(std::function<double(double)> f, double a, double b, size_t n
     return h * result;
 }
 
-double rectangle_r(std::function<double(double)> f, double a, double b, size_t n)
+double rectangle_r(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -37,7 +37,7 @@ double rectangle_r(std::function<double(double)> f, double a, double b, size_t n
     return h * result;
 }
 
-double rectangle_m(std::function<double(double)> f, double a, double b, size_t n)
+double rectangle_m(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -51,7 +51,7 @@ double rectangle_m(std::function<double(double)> f, double a, double b, size_t n
     return h * result;
 }
 
-double abs_err_rect_rl(std::function<double(double)> f_1, double a, double b, size_t n)
+double abs_err_rect_rl(func_x f_1, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double maximum = 0;
@@ -65,7 +65,7 @@ double abs_err_rect_rl(std::function<double(double)> f_1, double a, double b, si
     return maximum * std::pow(b - a, 2) / (2 * n);
 }
 
-double abs_err_rect_m(std::function<double(double)> f_2, double a, double b, size_t n)
+double abs_err_rect_m(func_x f_2, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double maximum = 0;
@@ -79,7 +79,7 @@ double abs_err_rect_m(std::function<double(double)> f_2, double a, double b, siz
     return maximum * std::pow(b - a, 3) / (24 * n * n);
 }
 
-double trapezoidal(std::function<double(double)> f, double a, double b, size_t n)
+double trapezoidal(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -95,7 +95,7 @@ double trapezoidal(std::function<double(double)> f, double a, double b, size_t n
     return h / 2 * result;
 }
 
-double abs_err_trap(std::function<double(double)> f_2, double a, double b, size_t n)
+double abs_err_trap(func_x f_2, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double maximum = 0;
@@ -109,7 +109,7 @@ double abs_err_trap(std::function<double(double)> f_2, double a, double b, size_
     return maximum * std::pow(b - a, 3) / (12 * n * n);
 }
 
-double simpson(std::function<double(double)> f, double a, double b, size_t n)
+double simpson(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -126,7 +126,7 @@ double simpson(std::function<double(double)> f, double a, double b, size_t n)
     return h / 3 * result;
 }
 
-double abs_err_simps(std::function<double(double)> f_4, double a, double b, size_t n)
+double abs_err_simps(func_x f_4, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double maximum = 0;
@@ -140,7 +140,7 @@ double abs_err_simps(std::function<double(double)> f_4, double a, double b, size
     return maximum * std::pow(b - a, 5) / (2880 * std::pow(n, 4));
 }
 
-double newton_38(std::function<double(double)> f, double a, double b, size_t n)
+double newton_38(func_x f, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double result = 0;
@@ -158,7 +158,7 @@ double newton_38(std::function<double(double)> f, double a, double b, size_t n)
     return 3. / 8 * h * result;
 }
 
-double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, size_t n)
+double abs_err_newton_38(func_x f_4, double a, double b, size_t n)
 {
     double h = (b - a) / n;
     double maximum = 0;
@@ -172,7 +172,7 @@ double abs_err_newton_38(std::function<double(double)> f_4, double a, double b, 
     return maximum * std::pow(b - a, 5) / (80 * std::pow(n, 4));
 }
 
-double monte_carlo_1d(std::function<double(double)> f, double a, double b, size_t n)
+double monte_carlo_1d(func_x f, double a, double b, size_t n)
 {
     std::random_device randD;
     std::mt19937 randMT(randD());
@@ -188,13 +188,13 @@ double monte_carlo_1d(std::function<double(double)> f, double a, double b, size_
     return (b - a) / n * result;
 }
 
-double abs_err_monte_carlo_1d(std::function<double(double)> f, double a, double b, size_t n)
+double abs_err_monte_carlo_1d(func_x f, double a, double b, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double newton_38_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double newton_38_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -223,13 +223,13 @@ double newton_38_2d(std::function<double(double, double)> f, double a, double b,
     return 3. / 8 * 3. / 8 * h_x * h_y * sum;
 }
 
-double abs_err_newton_38_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_newton_38_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double rectangle_r_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double rectangle_r_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -246,7 +246,7 @@ double rectangle_r_2d(std::function<double(double, double)> f, double a, double 
     return h_x * h_y * sum;
 }
 
-double rectangle_l_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double rectangle_l_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -263,13 +263,13 @@ double rectangle_l_2d(std::function<double(double, double)> f, double a, double 
     return h_x * h_y * sum;
 }
 
-double abs_err_rect_rl_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_rect_rl_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double rectangle_m_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double rectangle_m_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -286,13 +286,13 @@ double rectangle_m_2d(std::function<double(double, double)> f, double a, double 
     return h_x * h_y * sum;
 }
 
-double abs_err_rect_m_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_rect_m_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double trapezoidal_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double trapezoidal_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -314,13 +314,13 @@ double trapezoidal_2d(std::function<double(double, double)> f, double a, double 
     return h_x * h_y * sum / 2;
 }
 
-double abs_err_trap_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_trap_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double simpson_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double simpson_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     double h_x = (b - a) / n;
     double h_y = (d - c) / n;
@@ -346,19 +346,19 @@ double simpson_2d(std::function<double(double, double)> f, double a, double b, d
     return h_x * h_y * sum / 9;
 }
 
-double abs_err_simps_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_simps_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double monte_carlo_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double monte_carlo_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;
 }
 
-double abs_err_monte_carlo_2d(std::function<double(double, double)> f, double a, double b, double c, double d, size_t n)
+double abs_err_monte_carlo_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
     // TO DO
     return -1;

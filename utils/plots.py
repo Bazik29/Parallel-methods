@@ -25,7 +25,8 @@ if __name__ == "__main__":
 
 
     if os.path.exists('out1.csv'):
-        os.mkdir("img")
+        if not os.path.exists("img"):
+            os.mkdir("img")
         raw_data = pd.read_csv('out1.csv')
 
         data_time = raw_data[['Threads', 'Id', 'Steps', 'Time']].groupby(
@@ -75,7 +76,8 @@ if __name__ == "__main__":
             fig.savefig("img/1d-" + str(Id) + ' - ' + names[Id] + '.png')
 
     if os.path.exists('out2.csv'):
-        os.mkdir("img")
+        if not os.path.exists("img"):
+            os.mkdir("img")
         raw_data = pd.read_csv('out2.csv')
 
         data_time = raw_data[['Threads', 'Id', 'Steps', 'Time']].groupby(

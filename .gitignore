@@ -5,3 +5,6 @@ main2
 test2
 *.csv
 *.png
+.vscode/
+utils/img/
+
