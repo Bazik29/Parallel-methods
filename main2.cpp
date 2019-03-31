@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     const int N_MET = 7;
     // число разбиений (для каждого метода)
-    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99};
+    size_t aN[N_MET] = {1000, 1000, 1000, 1000, 1000, 999};
 
     int opt;
     while ((opt = getopt(argc, argv, "n:")) != -1)
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
     cout << "Число потоков: " << num_procs << endl;
     cout << "------Методы двумерного численного интегрирования------\n";
-    cout << "Верный результат:             13.34\n";
+    cout << "Верный результат:             "<< My::bar_res << endl;
     cout << "--------------------------------------------------------\n";
 
     // Формула левых прямоугольников
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     result = rectangle_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_rect_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
+    abs_err = abs_err_rect_m_2d(My::bar_xy, My::bar_x, My::bar_y, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
 
     result_test = rectangle_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[2]);
     rung = runge(result_test, result, 2);

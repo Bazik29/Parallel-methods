@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     6 - Метод Монте-Карло
     */
 
-    const int N_MET = 7;
+    const int N_MET = 6;
     // число разбиений (для каждого метода)
     size_t aN[N_MET] = {100, 100, 100, 100, 100, 99};
     int m = 0;
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_rect_rl(My::foo_1, My::foo_a, My::foo_b, aN[0]);
+            abs_err = abs_err_rect_rl(My::foo_max_1, My::foo_a, My::foo_b, aN[0]);
             result_test = rectangle_l(My::foo, My::foo_a, My::foo_b, aN_runge[0]);
             rung = runge(result_test, result, 1);
         }
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_rect_rl(My::foo_1, My::foo_a, My::foo_b, aN[0]);
+            abs_err = abs_err_rect_rl(My::foo_max_1, My::foo_a, My::foo_b, aN[0]);
             result_test = rectangle_r(My::foo, My::foo_a, My::foo_b, aN_runge[1]);
             rung = runge(result_test, result, 1);
         }
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_rect_m(My::foo_2, My::foo_a, My::foo_b, aN[2]);
+            abs_err = abs_err_rect_m(My::foo_max_2, My::foo_a, My::foo_b, aN[2]);
             result_test = rectangle_m(My::foo, My::foo_a, My::foo_b, aN_runge[2]);
             rung = runge(result_test, result, 2);
         }
@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_trap(My::foo_2, My::foo_a, My::foo_b, aN[3]);
+            abs_err = abs_err_trap(My::foo_max_2, My::foo_a, My::foo_b, aN[3]);
             result_test = trapezoidal(My::foo, My::foo_a, My::foo_b, aN_runge[3]);
             rung = runge(result_test, result, 2);
         }
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_simps(My::foo_4, My::foo_a, My::foo_b, aN[4]);
+            abs_err = abs_err_simps(My::foo_max_4, My::foo_a, My::foo_b, aN[4]);
             result_test = simpson(My::foo, My::foo_a, My::foo_b, aN_runge[4]);
             rung = runge(result_test, result, 4);
         }
@@ -179,29 +179,12 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_newton_38(My::foo_2, My::foo_a, My::foo_b, aN[5]);
+            abs_err = abs_err_newton_38(My::foo_max_4, My::foo_a, My::foo_b, aN[5]);
             result_test = newton_38(My::foo, My::foo_a, My::foo_b, aN_runge[5]);
             rung = runge(result_test, result, 4);
         }
 
         print_CSV(num_procs, 5, aN[5], calc_time, result, abs_err, rung);
-        break;
-    }
-    case 6:
-    {
-        // Метод Монте-Карло
-        begTime = steady_clock::now();
-        result = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN[6]);
-        calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
-
-        if (withError)
-        {
-            abs_err = abs_err_monte_carlo_1d(My::foo_2, My::foo_a, My::foo_b, aN[5]);
-            result_test = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN_runge[6]);
-            rung = runge(result_test, result, 4);
-        }
-
-        print_CSV(num_procs, 6, aN[6], calc_time, result, abs_err, rung);
         break;
     }
     default:

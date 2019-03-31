@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
         if (withError)
         {
-            abs_err = abs_err_rect_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
+            abs_err = abs_err_rect_m_2d(My::bar_xy, My::bar_x, My::bar_y, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN[2]);
             result_test = rectangle_m_2d(My::bar, My::bar_a, My::bar_b, My::bar_c, My::bar_d, aN_runge[2]);
             rung = runge(result_test, result, 2);
         }

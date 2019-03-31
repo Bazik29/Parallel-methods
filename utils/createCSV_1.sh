@@ -2,7 +2,7 @@ num_for_repeat=10
 max_threds=4
 step_treads=1
 
-dims=(10 500 1000 2000)
+dims=(100 10000 25000 50000)
 methods=(0 1 2 3 4 5)
 
 

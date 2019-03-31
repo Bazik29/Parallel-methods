@@ -29,9 +29,9 @@ int main(int argc, char *argv[])
     6 - Метод Монте-Карло
     */
 
-    const int N_MET = 7;
+    const int N_MET = 6;
     // число разбиений (для каждого метода)
-    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99, 100};
+    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99};
 
     int opt;
     while ((opt = getopt(argc, argv, "n:")) != -1)
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
     cout << "Число потоков: " << num_procs << endl;
     cout << "------Методы одномерного численного интегрирования------\n";
-    cout << "Верный результат:             1.373720859104567\n";
+    cout << "Верный результат:             "<< My::foo_res << endl;
     cout << "--------------------------------------------------------\n";
 
     // Формула левых прямоугольников
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     result = rectangle_l(My::foo, My::foo_a, My::foo_b, aN[0]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_rect_rl(My::foo_1, My::foo_a, My::foo_b, aN[0]);
+    abs_err = abs_err_rect_rl(My::foo_max_1, My::foo_a, My::foo_b, aN[0]);
 
     result_test = rectangle_l(My::foo, My::foo_a, My::foo_b, aN_runge[0]);
     rung = runge(result_test, result, 1);
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     result = rectangle_m(My::foo, My::foo_a, My::foo_b, aN[2]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_rect_m(My::foo_2, My::foo_a, My::foo_b, aN[2]);
+    abs_err = abs_err_rect_m(My::foo_max_2, My::foo_a, My::foo_b, aN[2]);
 
     result_test = rectangle_m(My::foo, My::foo_a, My::foo_b, aN_runge[2]);
     rung = runge(result_test, result, 2);
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
     result = trapezoidal(My::foo, My::foo_a, My::foo_b, aN[3]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_trap(My::foo_2, My::foo_a, My::foo_b, aN[3]);
+    abs_err = abs_err_trap(My::foo_max_2, My::foo_a, My::foo_b, aN[3]);
 
     result_test = trapezoidal(My::foo, My::foo_a, My::foo_b, aN_runge[3]);
     rung = runge(result_test, result, 2);
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     result = simpson(My::foo, My::foo_a, My::foo_b, aN[4]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_simps(My::foo_4, My::foo_a, My::foo_b, aN[4]);
+    abs_err = abs_err_simps(My::foo_max_4, My::foo_a, My::foo_b, aN[4]);
 
     result_test = simpson(My::foo, My::foo_a, My::foo_b, aN_runge[4]);
     rung = runge(result_test, result, 4);
@@ -140,24 +140,12 @@ int main(int argc, char *argv[])
     result = newton_38(My::foo, My::foo_a, My::foo_b, aN[5]);
     calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
 
-    abs_err = abs_err_newton_38(My::foo_2, My::foo_a, My::foo_b, aN[5]);
+    abs_err = abs_err_newton_38(My::foo_max_4, My::foo_a, My::foo_b, aN[5]);
 
     result_test = newton_38(My::foo, My::foo_a, My::foo_b, aN_runge[5]);
     rung = runge(result_test, result, 3);
 
     print_log(std::string("Формула трех восьмых"), aN[5], result, abs_err, aN_runge[5], rung, calc_time);
-
-    // Метод Монте-Карло
-    begTime = steady_clock::now();
-    result = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN[6]);
-    calc_time = duration_cast<duration<double>>(steady_clock::now() - begTime).count();
-
-    abs_err = abs_err_monte_carlo_1d(My::foo_2, My::foo_a, My::foo_b, aN[5]);
-
-    result_test = monte_carlo_1d(My::foo, My::foo_a, My::foo_b, aN_runge[6]);
-    rung = runge(result_test, result, 4);
-
-    print_log(std::string("Метод Монте-Карло"), aN[6], result, abs_err, aN_runge[6], rung, calc_time);
 
     return 0;
 }

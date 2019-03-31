@@ -33,7 +33,7 @@ if __name__ == "__main__":
             ['Threads', 'Id', 'Steps'], as_index=False).mean()
 
         max_y_time = max(data_time['Time'])
-        max_y_sp = 2
+        max_y_sp = 4
         max_y_ep = 2
         for Id in sorted(set(data_time['Id'])):
             sub_df = data_time.loc[data_time.Id == Id]
