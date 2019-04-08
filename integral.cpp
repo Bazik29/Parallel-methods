@@ -319,8 +319,19 @@ double abs_err_simps_2d(func_xy f, double a, double b, double c, double d, size_
 
 double monte_carlo_2d(func_xy f, double a, double b, double c, double d, size_t n)
 {
-    // TO DO
-    return -1;
+    std::random_device randD;
+    std::mt19937 randMT(randD());
+    std::uniform_real_distribution<> rand_x(a, b);
+    std::uniform_real_distribution<> rand_y(c, d);
+
+    double S = 0.0;
+#pragma omp parallel for reduction(+ \
+                                   : S)
+    for (int i = 0; i < n; i++)
+    {
+        S += f(rand_x(randMT), rand_y(randMT));
+    }
+    return ((b - a) * (d - c)) / n * S;
 }
 
 double abs_err_monte_carlo_2d(func_xy f, double a, double b, double c, double d, size_t n)
