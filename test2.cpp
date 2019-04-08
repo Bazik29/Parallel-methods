@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     const int N_MET = 7;
     // число разбиений (для каждого метода)
-    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99};
+    size_t aN[N_MET] = {100, 100, 100, 100, 100, 99, 10000};
     int m = 0;
 
     bool withError = false;
